@@ -59,15 +59,7 @@
 					</button>
 				</form>
 				
-				<ul id="tasklist">
-					<?if (!empty($currentUserTasks)) {?>
-						<?foreach ($currentUserTasks as $currentUserTask) {?>
-							<li>
-								<?=$currentUserTask["NAME"]?>
-							</li>
-						<?}?>
-					<?}?>
-				</ul>
+				<ul id="tasklist"></ul>
 			</section>
 			
 			<div id="pagination"></div>
