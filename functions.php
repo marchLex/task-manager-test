@@ -33,8 +33,8 @@ class TaskManager {
 			$tasksFilter[] = [
 				"LOGIC" => "OR",
 				"NAME" => "%" . $search . "%",
-				"DESCRIPTION" => "%" . $search . "%",
-				"TAGS" => "%" . $search . "%"
+				// "DESCRIPTION" => "%" . $search . "%",
+				// "TAGS" => "%" . $search . "%"
 			];
 		}
 		
@@ -43,13 +43,16 @@ class TaskManager {
 				"ID", //ID задачи
 				"NAME", //Название задачи
 				"TAGS", //Теги
+				"DATE" => "DATE_CREATE", //Дата создания задачи
 				"DESCRIPTION" => "DETAIL_TEXT", //Описание задачи
 			],
 			"filter" => $tasksFilter,
 			"limit" => $pageSize, //Размер страницы
 			"offset" => $offset * $pageSize, //Отступ слева
 			"count_total" => 1,
-			"order" => ["ID" => "DESC"],
+			"order" => [
+				"ID" => "DESC"
+			],
 			"cache" => [
 				"ttl" => 0
 			],
@@ -61,12 +64,13 @@ class TaskManager {
 			"pageSize" => $pageSize
 		];
 		
+		
+		// arshow($tasks);
 		return $tasks;
 	}
 	
 	/**
-	* param array $dataToUpdate массив данных для добавления или апдейта тасками
-	* param int $taskId если апдейтим элемент, то передаем сюда его ID. Если не передали ничего или 0, то создаем новый
+	* param array $dataToUpdate массив данных для добавления или апдейта таска
 	*/
 	
 	public function userTasksUpdate(array $dataToUpdate) : int { //TODO: обновить сервер на PHP 8+ и переделать логику на : int|bool. Позволит оптимизировать код и улучшить читаемость
@@ -109,10 +113,10 @@ class TaskManager {
 	}
 	
 	public function userTasksDelete(int $taskId) : bool {
-		if (!$this->taskManagerInstance::delete($taskId))
-			return false;
+		if ($this->taskManagerInstance::delete($taskId)->isSuccess())
+			return true;
 		
-		return true;
+		return false;
 	}
 }
 
